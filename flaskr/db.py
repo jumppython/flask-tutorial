@@ -28,9 +28,9 @@ def close_db(e=None):
         db.close()
 
 def init_db():
+    # open_resource(): opens a file relative to the flaskr package, which is useful since you won't necessarily know where that location is when deploying the application later. 
+    # get_db(): returns a database connection, which is used to execute the commands read from the file.
     db = get_db()
-
-    # open_resource(): opens a file relative to the flaskr package, which is useful since you won't necessarily know where that location is when deploying the application later. get_db returns a database connection, which is used to execute the commands read from the file.
     with current_app.open_resource('schema.sql') as f:
         db.executescript(f.read().decode('utf8'))
 
@@ -40,7 +40,7 @@ def init_db():
 def init_db_command():
     """Clear the existing data and create new tables."""
     init_db()
-    click,echo('Initialized the database.')
+    click.echo('Initialized the database.')
 
 # The close_db and init_db_command functions need to be registered with the application instance, otherwise they won't be used by the application. However, since you're using a factory function, that instance isn't available when writing the functions. Instead, write a function that takes and application and does the registration.
 def init_app(app):
